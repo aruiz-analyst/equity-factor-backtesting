@@ -1,2 +1,3 @@
-# equity-factor-backtesting
-Backtesting equity factor strategies using Python.
+# Equity Factor Backtesting
+
+This project explores equity factor strategies using historical market data and evaluates their performance through systematic backtesting.
