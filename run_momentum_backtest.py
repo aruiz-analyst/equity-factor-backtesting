@@ -7,6 +7,7 @@ from src.metrics import annualized_return, annualized_vol, sharpe_ratio, max_dra
 
 req = PriceRequest(["SPY", "QQQ", "IWM"], "2018-01-01", "2024-01-01")
 prices = load_adj_close(req)
+
 rets = compute_returns(prices)
 signal = momentum_12m_1m(prices)
 
@@ -18,7 +19,6 @@ print("AnnVol:", round(annualized_vol(strategy), 4))
 print("Sharpe:", round(sharpe_ratio(strategy), 4))
 print("MaxDD:", round(max_drawdown(equity), 4))
 
-# Save plot for GitHub proof
 plt.figure()
 equity.plot()
 plt.title("Momentum Long/Short (Monthly Rebalance) Equity Curve")

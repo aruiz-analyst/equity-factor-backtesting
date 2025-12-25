@@ -48,7 +48,6 @@ def backtest_monthly_long_short(
     returns = returns.copy()
     signal = signal.reindex_like(returns)
 
-    # Rebalance on month-end dates available in the returns index
     rebal_dates = month_end_dates(returns.index)
     rebal_dates = rebal_dates.intersection(returns.index)
 
@@ -56,6 +55,7 @@ def backtest_monthly_long_short(
     daily_strat = []
 
     cost_rate = cost_bps / 10000.0
+    cost = 0.0
 
     for dt in returns.index:
         if dt in rebal_dates:
@@ -65,13 +65,10 @@ def backtest_monthly_long_short(
             cost = cost_rate * turnover
             w_prev = w_new
 
-        # portfolio return for the day using current weights
         r = (w_prev * returns.loc[dt]).sum()
-        # apply cost on rebalance day (cost already computed) — cost treated as return drag
         if dt in rebal_dates:
             r -= cost
 
         daily_strat.append(r)
 
-    strat = pd.Series(daily_strat, index=returns.index, name="strategy_return")
-    return strat
+    return pd.Series(daily_strat, index=returns.index, name="strategy_return")
